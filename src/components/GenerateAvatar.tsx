@@ -22,37 +22,51 @@ const stringToHash = (str: string): number => {
 }
 
 const GenerateAvatar: React.FC = () => {
-    let bmp = new MyBitmap(26, 26);
+    let bmp = new MyBitmap(10, 10);
 
 
-    let drawCircle = (x0: number, y0: number, r: number) => {
-        for (let x = Math.floor(x0 - r); x < Math.ceil(x0 + r); x++) {
-            for (let y = Math.floor(y0 - r); y < Math.ceil(y0 + r); y++) {
-                if ((x - x0) * (x - x0) + (y - y0) * (y - y0) <= r * r) {
-                    bmp.setPixel(x, y, [1, 0, 0, 1]);
-                }
-            }
+    // let drawCircle = (x0: number, y0: number, r: number) => {
+    //     for (let x = Math.floor(x0 - r); x < Math.ceil(x0 + r); x++) {
+    //         for (let y = Math.floor(y0 - r); y < Math.ceil(y0 + r); y++) {
+    //             if ((x - x0) * (x - x0) + (y - y0) * (y - y0) <= r * r) {
+    //                 bmp.setPixel(x, y, [1, 0, 0, 1]);
+    //             }
+    //         }
+    //     }
+    // }
+
+    const drawLine = (x: number, y: number) => {
+        for (let i = 0; i < 10; i++) {
+            let random_number_x = Math.floor(Math.random() * 3 - 1);
+            let random_number_y = Math.floor(Math.random() * 3 - 1);
+            bmp.setPixel(x + random_number_x, y + random_number_y, [0, 0, 0, 1]);
+
+        }
+    }
+
+    const moreLine = () => {
+        for (let i = 0; i < 5; i++) {
+            let random_x = Math.floor(Math.random() * bmp.width);
+            let random_y = Math.floor(Math.random() * bmp.height);
+
+            drawLine(random_x, random_y);
         }
     }
 
     let createImg = () => {
-        let random_r = Math.floor(Math.random() * 7 + 3);
-        let random_y = Math.floor(Math.random() * 12 + 2);
-        drawCircle(bmp.width / 2, random_y, random_r);
-        for (let y = random_y; y < bmp.height; y++) {
-            for (let x = 0; x < bmp.width; x++) {
-                let random_x = bmp.width / 2;
-                bmp.setPixel(random_x,  y, [1, 0, 0, 1]);
+        moreLine();
 
+        for (let y = 0; y < bmp.height; y++) {
+            for (let x = 0; x < bmp.width/2; x++) {
+                let color_array = bmp.getPixel(x, y);
+                let new_x = (bmp.width/2 - x) + bmp.width/2 - 1;
+                bmp.setPixel(new_x, y, color_array);
             }
         }
 
-
-
-
     }
+    createImg();
 
-    createImg()
 
     return (
         <div>
@@ -61,7 +75,7 @@ const GenerateAvatar: React.FC = () => {
                 <button>Generate</button>
             </div>
             <br/>
-            <img src={`${bmp.asBase64()}`} style={{border: "2px solid black", imageRendering: 'pixelated'}}/>
+            <img src={`${bmp.asBase64()}`} style={{border:'2px solid pink', imageRendering: 'pixelated'}}/>
         </div>
     )
 }
