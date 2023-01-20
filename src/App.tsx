@@ -1,10 +1,11 @@
 import React from 'react';
+import {GenerateAvatar} from "./components/GenerateAvatar";
 
 
 const App: React.FC = () => {
   return (
       <>
-        aaaaa
+        <GenerateAvatar/>
       </>
   )
 }
